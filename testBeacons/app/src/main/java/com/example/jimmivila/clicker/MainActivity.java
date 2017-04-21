@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -18,6 +19,7 @@ import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.recognition.packets.Nearable;
 import com.estimote.coresdk.service.BeaconManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,30 +37,14 @@ public class MainActivity extends AppCompatActivity {
     private String scanId;
     private int times = 0;
     private RequestQueue queue;
+    private List<Nearable> savedNearables;
 
 
     //Requests http logic
-//    String url = "http://clicker.tech/back-end/index.php/app/test";
     String post = "http://clicker.tech/back-end/index.php/app/saveEvent";
-    String url = "http://clicker.tech/back-end/index.php/app/test";
-
-    StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("RESPONSE", response.toString());
-                }
-            }, new Response.ErrorListener(){
-        @Override
-        public void onErrorResponse(VolleyError error){
-            Log.d("RESPONSE","ERRORIFICO");
-        }
-    });
+//    String  post = "http://koko-test.com/click/back-end/index.php/app/saveEvent";
 
     JSONObject json = new JSONObject();
-
-
-//    JsonObjectRequest jsonRequest = new JsonObjectRequest(post,);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         EstimoteSDK.initialize(this, "android-beacons-kei", "82d837e720d34be09372611d7cfe34f0");
 
+        savedNearables = new ArrayList<>();
         queue = Volley.newRequestQueue(this);
 
         beaconManager = new BeaconManager(this);
@@ -96,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
-        
+
+
         setNearableListener();
 
         region = new BeaconRegion("polish ambassador",null,null,null);
@@ -109,20 +99,76 @@ public class MainActivity extends AppCompatActivity {
             public void onNearablesDiscovered(List<Nearable> nearables){
 
                 if(!nearables.isEmpty()){
-                    Log.d("NEARABLES", ++times + " " +nearables.toString());
-                    Nearable nearable = getNearableById("cc972e2764691817",nearables);
+//                    Log.d("NEARABLES", ++times + " " +nearables.toString());
+//                    Nearable nearable = getNearableById("cc972e2764691817",nearables);
+                    for (final Nearable near: nearables) {
 
-                    if(nearable != null){
-                        if (nearable.isMoving){
-                            queue.add(stringRequest);
+                        Nearable nearable = getNearableById(near.identifier,savedNearables);
 
+                        if(nearable == null){
+                            if (near.isMoving){
+    //
+
+                                Log.d("Nice!!!","Lo lograstes!");
+                                try {
+                                    json.put("id_channel","null");
+                                    json.put("channel_name","null");
+                                    json.put("event_name","null");
+                                    json.put("id_rule","null");
+                                    json.put("rule_name","null");
+                                    json.put("id_object",near.identifier);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                JsonObjectRequest jsonRequest = new JsonObjectRequest(post,json,new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            VolleyLog.v("Response:%n %s", response.toString(4));
+
+                                            addToSavedList(near);
+
+                                            new Timer().schedule(new TimerTask(){
+                                                @Override
+                                                public void run(){
+                                                    removeFromList(near);
+                                                    Log.d("Removed","from list");
+                                                }
+                                            },30000);
+
+
+                                        } catch (JSONException e) {
+
+                                        }
+                                    }
+                                }, new Response.ErrorListener(){
+                                    @Override
+                                    public void onErrorResponse(VolleyError error){
+                                        VolleyLog.e("faq","no se pudo hacer json");
+                                    }
+                                });
+
+                                queue.add(jsonRequest);
+
+
+                            }
                         }
                     }
+
                 }
 //                TextView txtLugaresCercanos = (TextView) findViewById(R.id.txtLugaresCercanos);
 //                txtLugaresCercanos.setText(nearables.toString());
             }
         });
+    }
+
+    private void removeFromList(Nearable near) {
+        savedNearables.remove(near);
+    }
+
+    private void addToSavedList(Nearable near) {
+        savedNearables.add(near);
     }
 
     private Nearable getNearableById(String id,List<Nearable> nearables) {
@@ -134,17 +180,6 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 //
-//    @Override
-//    protected void onStart(){
-//        super.onStart();
-//        beaconManager.connect(new BeaconManager.ServiceReadyCallback(){
-//            @Override
-//            public void onServiceReady(){
-//                beaconManager.startNearableDiscovery();
-//            }
-//        });
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -153,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
         beaconManager.connect(new BeaconManager.ServiceReadyCallback(){
             @Override
             public void onServiceReady() {
-//                beaconManager.startRanging(region);
                 beaconManager.startNearableDiscovery();
             }
         });

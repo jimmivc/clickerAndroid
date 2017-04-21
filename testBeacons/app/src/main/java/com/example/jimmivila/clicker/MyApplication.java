@@ -20,7 +20,7 @@ public class MyApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        beaconManager = new BeaconManager(getApplicationContext());
+//        beaconManager = new BeaconManager(getApplicationContext());
 
 //        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener(){
 //
@@ -36,18 +36,18 @@ public class MyApplication extends Application{
 //        });
 
 
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback(){
-            @Override
-            public void onServiceReady() {
-                beaconManager.startMonitoring(new BeaconRegion(
-                        "chilling buscando beakokons",
-//                        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
-//                        9274,
-//                        54670));
-                        null,null,null
-                ));
-            }
-        });
+//        beaconManager.connect(new BeaconManager.ServiceReadyCallback(){
+//            @Override
+//            public void onServiceReady() {
+//                beaconManager.startMonitoring(new BeaconRegion(
+//                        "chilling buscando beakokons",
+////                        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
+////                        9274,
+////                        54670));
+//                        null,null,null
+//                ));
+//            }
+//        });
     }
 
     public void showNotification(String title, String message){
