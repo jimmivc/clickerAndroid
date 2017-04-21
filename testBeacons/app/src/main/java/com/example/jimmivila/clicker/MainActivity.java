@@ -3,6 +3,7 @@ package com.example.jimmivila.clicker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -128,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
                                             VolleyLog.v("Response:%n %s", response.toString(4));
 
                                             addToSavedList(near);
+
+                                            /////Toast
+                                            Toast.makeText(getApplicationContext(),"agregando nearable: "+near.type +" a la base de datos", Toast.LENGTH_LONG).show();
+                                            /////
 
                                             new Timer().schedule(new TimerTask(){
                                                 @Override
