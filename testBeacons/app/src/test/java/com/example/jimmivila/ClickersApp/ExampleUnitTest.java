@@ -1,4 +1,4 @@
-package com.example.jimmivila.clicker;
+package com.example.jimmivila.ClickersApp;
 
 import org.junit.Test;
 

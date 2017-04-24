@@ -1,4 +1,4 @@
-package com.example.jimmivila.clicker;
+package com.example.jimmivila.ClickersApp;
 
 import android.app.Application;
 import android.app.Notification;
@@ -7,35 +7,35 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
-import com.estimote.coresdk.service.BeaconManager;
+import com.estimote.sdk.EstimoteSDK;
 
 /**
  * Created by jimmivila on 10/13/16.
  */
 public class MyApplication extends Application{
 
-    private BeaconManager beaconManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        beaconManager = new BeaconManager(getApplicationContext());
+        EstimoteSDK.initialize(this, "android-beacons-kei", "82d837e720d34be09372611d7cfe34f0");
 
-//        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener(){
+//        beaconManager = new BeaconManager(getApplicationContext());
+//
+//        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener(){
 //
 //            @Override
-//            public void onEnteredRegion(Region region, List<Beacon> list) {
+//            public void onEnteredRegion(BeaconRegion region, List<Beacon> list) {
 ////                showNotification("OMG this is incredible my friend...", "Today was not a good day");
 //            }
 //
 //            @Override
-//            public void onExitedRegion(Region region) {
+//            public void onExitedRegion(BeaconRegion region) {
 ////                showNotification("See yah broda!", "not bad nigro!");
 //            }
 //        });
-
-
+//
+//
 //        beaconManager.connect(new BeaconManager.ServiceReadyCallback(){
 //            @Override
 //            public void onServiceReady() {

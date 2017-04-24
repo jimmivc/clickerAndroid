@@ -1,4 +1,4 @@
-package com.example.jimmivila.clicker;
+package com.example.jimmivila.ClickersApp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

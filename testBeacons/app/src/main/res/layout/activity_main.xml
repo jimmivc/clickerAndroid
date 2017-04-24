@@ -7,13 +7,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.jimmivila.clicker.MainActivity">
+    tools:context="com.example.jimmivila.ClickersApp.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtLugaresCercanos"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_alignTop="@+id/txtId"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Datos del beacon mas cercano"
+        android:text="Ultimo beacon registrado"
         android:id="@+id/textView3"
         android:layout_marginTop="33dp"
         android:layout_below="@+id/textView"
@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Lugares"
-        android:id="@+id/textView2"
+        android:text="Id"
+        android:id="@+id/txtId"
         android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_marginTop="35dp" />
@@ -49,39 +49,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="uuid:"
-        android:id="@+id/txtuuid"
+        android:text="Temperatura:"
+        android:id="@+id/txtTemp"
         android:layout_marginTop="27dp"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/txtId"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="major:"
-        android:id="@+id/txtMajor"
+        android:text="Color:"
+        android:id="@+id/txtColor"
         android:layout_marginTop="28dp"
-        android:layout_below="@+id/txtuuid"
+        android:layout_below="@+id/txtTemp"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="minor:"
-        android:id="@+id/txtMinor"
+        android:text="Baterry level:"
+        android:id="@+id/txtBaterry"
         android:layout_marginTop="28dp"
-        android:layout_below="@+id/txtMajor"
+        android:layout_below="@+id/txtColor"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="mac: "
-        android:id="@+id/txtMac"
-        android:layout_below="@+id/txtMinor"
+        android:text="Typo: "
+        android:id="@+id/txtTipo"
+        android:layout_below="@+id/txtBaterry"
         android:layout_alignParentStart="true"
         android:layout_marginTop="27dp" />
 </RelativeLayout>
